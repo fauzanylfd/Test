@@ -11,7 +11,7 @@ Tujuan:
 - Penghematan biaya kepada pengguna setia
 
 Cara kerja: 
-1. pengguna login
-2. memilih layanan yang dinginkan yaitu doctor atau food
-3. atur pemesanan
-4. selesai
+1. Pengguna login
+2. Memilih layanan yang diinginkan yaitu doctor atau food
+3. Atur pemesanan
+4. Selesai
