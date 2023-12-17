@@ -12,6 +12,6 @@ Tujuan:
 
 Cara kerja: 
 1. Pengguna login
-2. Memilih layanan yang diinginkan yaitu doctor atau food
-3. Atur pemesanan
+2. Memilih petshop yang diinginkan
+3. pilih produk yang dinginkan
 4. Selesai
