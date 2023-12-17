@@ -26,15 +26,7 @@ class PetshopList extends StatefulWidget {
 
 class _PetshopListState extends State<PetshopList> {
   String query = '';
-  
-PetFood foodModel = petFoods[1] ;
 
-PetFood get petFood => PetFood(
-  image: foodModel.image,
-  name: foodModel.name,
-  price: foodModel.price,
-  discountPrice: foodModel.discountPrice,
-);
   @override
   Widget build(BuildContext context) {
     final filteredpetshops = this.query.isEmpty
@@ -72,73 +64,61 @@ PetFood get petFood => PetFood(
           Text('Jarak: ${petshops[index].distance} km'),
           Text('Layanan: ${petshops[index].services.join(', ')}'),],),
             onTap: () {
-            // Asumsikan Anda memiliki sebuah list bernama cartItems
-List<PetFood> cartItems = [];
-
-Widget productCard(PetFood food) {
-  return Column(
-    children: <Widget>[
-      Image.asset(food.image),  // Asumsikan Anda memiliki atribut imageUrl
-      Text(food.name),  // Asumsikan Anda memiliki atribut name
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(food.price, style: TextStyle(decoration: TextDecoration.lineThrough)),  // Asumsikan Anda memiliki atribut price
-          Text(food.discountPrice, style: TextStyle(color: Colors.red)),  // Asumsikan Anda memiliki atribut discountPrice
-        ],
-      ),
-      Align(
-        alignment: Alignment.bottomRight,
-        child: ElevatedButton(
-          onPressed: () {
-            setState(() {
-              cartItems.add(food);  // Tambahkan food ke cartItems
-            });
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${food.name} telah ditambahkan ke keranjang'),
-              ),
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('${petshops[index].name}'),
+                  content: SingleChildScrollView(
+                    child: Column(
+                      children: petFoods.map((food) {
+                        return Column(
+                          children: <Widget>[
+                            Image.asset(food.image),
+                            Text(food.name),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(food.price.toStringAsFixed(2), style: TextStyle(decoration: TextDecoration.lineThrough)),
+                                Text(food.discountPrice.toStringAsFixed(2), style: TextStyle(color: Colors.red)),
+                              ],
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('${food.name} telah ditambahkan ke keranjang'),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white, backgroundColor: Colors.red,
+                                ),
+                                child: Text('Tambah'),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text('Tutup'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
             );
           },
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white, backgroundColor: Colors.red, // foreground
-          ),
-          child: Text('Tambah'),
-        ),
-      ),
-    ],
-  );
-}
-
-
-showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      title: Text('${petshops[index].name}'),
-      content: SingleChildScrollView(  // Tambahkan ini
-        child: Column(
-          children: <Widget>[
-            ...petshops[index].petFoods.map((food) => productCard(petFood)).toList(),  // Asumsikan petFoods adalah daftar objek PetFood
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          child: Text('Tutup'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  },
-);
-
-            },
-          );
-        },
-      ),
+        );
+      },
+    )
     );
   }
 }

@@ -8,10 +8,15 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  List <PetFood> _cartItems = [];  // Ubah ini menjadi List<PetFood>
+  List<PetFood> _cartItems = petFoods;
 
   @override
   Widget build(BuildContext context) {
+    double total = 0;
+    _cartItems.forEach((item) {
+      total += item.discountPrice as double;
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Cart'),
@@ -21,20 +26,37 @@ class _CartPageState extends State<CartPage> {
           ? Center(
               child: Text('Your shopping cart is empty.'),
             )
-          : ListView.builder(
-              itemCount: _cartItems.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_cartItems[index].name),
-                  subtitle: Text(_cartItems[index].price),  // Hapus .toString()
-                  trailing: IconButton(
-                    icon: Icon(Icons.remove_shopping_cart),
-                    onPressed: () {
-                      _removeFromCart(index);
+          : Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _cartItems.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Image.asset(_cartItems[index].image),
+                        title: Text(_cartItems[index].name),
+                        subtitle: Text(_cartItems[index].discountPrice.toString()),
+                        trailing: IconButton(
+                          icon: Icon(Icons.remove_shopping_cart),
+                          onPressed: () {
+                            _removeFromCart(index);
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
+                ),
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Total: Rp' + total.toStringAsFixed(2), style: TextStyle(fontSize: 24)),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Tambahkan fungsi untuk menangani ketika tombol ditekan
+                  },
+                  child: Text('Pesan'),
+                ),
+              ],
             ),
     );
   }
