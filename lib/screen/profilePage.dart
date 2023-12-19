@@ -5,7 +5,12 @@ import 'package:gopet/screen/settingPage.dart';
 import 'package:gopet/screen/myFavoritePage.dart';
 
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +26,6 @@ class ProfilePage extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 60,
-                backgroundImage: AssetImage('assets/images/pet_profile.jpg'),
               ),
               SizedBox(height: 20),
               Text(
@@ -41,15 +45,21 @@ class ProfilePage extends StatelessWidget {
               ),
              SizedBox(height: 20),
               ListTile(
-                leading: Icon(Icons.person),
-                title: Text('My Account'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyAccountPage()),
-                    );
-                  },
-                ),
+  leading: Icon(Icons.person),
+  title: Text('My Account'),
+  onTap: () async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyAccountPage()),
+    );
+    if (result != null) {
+      setState(() {
+        globalName = result['name'];
+        globalEmail = result['email'];
+      });
+    }
+  },
+),
               ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('My Favorites'),

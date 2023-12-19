@@ -73,22 +73,23 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   },
                 ),
                 SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      globalName = _nameController.text;
-                      globalEmail = _emailController.text;
-                      globalPassword = _passwordController.text; // Save the password
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data sedang diproses')));
-                      await Future.delayed(Duration(seconds: 2)); // wait for 2 seconds
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data telah disimpan')));
-                    }
-                  },
-                  child: Text('Submit'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Coloors.primary,
-                  ),
-                ),
+               ElevatedButton(
+  onPressed: () async {
+    if (_formKey.currentState?.validate() ?? false) {
+      globalName = _nameController.text;
+      globalEmail = _emailController.text;
+      globalPassword = _passwordController.text; // Save the password
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data sedang diproses')));
+      await Future.delayed(Duration(seconds: 2)); // wait for 2 seconds
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data telah disimpan')));
+      Navigator.pop(context, {'name': globalName, 'email': globalEmail}); // Pass the data back to the profile page
+    }
+  },
+  child: Text('Submit'),
+  style: ElevatedButton.styleFrom(
+    foregroundColor: Colors.white, backgroundColor: Coloors.primary,
+  ),
+),
               ],
             ),
           ),

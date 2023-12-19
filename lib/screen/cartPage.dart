@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gopet/component/foodModel.dart';
+import 'package:gopet/component/foodcart.dart';
 import 'package:gopet/screen/pageMenu.dart';
 
 class CartPage extends StatefulWidget {
@@ -8,7 +8,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  List<PetFood> _cartItems = petFoods;
+  List<foodcart> _cartItems = Foodscart;
 
   @override
   Widget build(BuildContext context) {
